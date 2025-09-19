@@ -1,0 +1,4 @@
+-- 기본 세팅
+
+SELECT *
+FROM tutorial.us_housing_units;
