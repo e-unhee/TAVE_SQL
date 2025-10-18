@@ -58,3 +58,19 @@ LEFT JOIN Orders o
 GROUP BY u.user_id, u.join_date;
 -- 어차피 user별 join_date 하나 밖에 매칭 안되는데 굳이 groupby에 넣어야 함 ? -> MYSQL에서는 돌아갈 지 몰라도 SQL 표준 모드에서는 에러가 남
 -- *SELECT 절에 있는 비집계칼럼은 반드시 GROUP BY 절에도 포함이 되어야 함
+
+
+-- 1204.
+
+With sum_weights AS (
+    SELECT *,
+        # SUM 함수에 특정 행에 대한 조건을 달고 싶을 때 사용하는 함수가 OVER()
+        SUM(weight) OVER(ORDER BY turn) AS total_weight
+    FROM Queue
+)
+
+SELECT person_name
+FROM sum_weights 
+WHERE total_weight<=1000
+ORDER BY total_weight DESC
+LIMIT 1
